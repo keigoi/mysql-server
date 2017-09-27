@@ -32,7 +32,7 @@
 #endif
 
 #include "psi_base.h"
-#include "psi_memory.h"
+/* #include "psi_memory.h" */
 
 /*
   MAINTAINER:
@@ -229,6 +229,7 @@ enum PSI_table_io_operation
   PSI_TABLE_DELETE_ROW= 3
 };
 typedef enum PSI_table_io_operation PSI_table_io_operation;
+
 
 /**
   State data storage for @c start_table_io_wait_v1_t,

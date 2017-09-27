@@ -151,5 +151,5 @@ typedef struct PSI_memory_info_v2 PSI_memory_info;
 #endif
 
 
-#endif /* MYSQL_PSI_MEMORY_H */
+#endif
 

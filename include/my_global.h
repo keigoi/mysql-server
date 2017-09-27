@@ -223,9 +223,9 @@ typedef int       sigset_t;
 typedef int       mode_t;
 typedef SSIZE_T   ssize_t;
 #else
-typedef socklen_t socket_len_t;
+/* typedef socklen_t socket_len_t; */
 #endif
-typedef socket_len_t SOCKET_SIZE_TYPE; /* Used by NDB */
+/* typedef socket_len_t SOCKET_SIZE_TYPE; /\* Used by NDB *\/ */
 
 /* file create flags */
 
@@ -531,7 +531,7 @@ typedef long long intptr;
 typedef unsigned long long my_off_t;
 typedef unsigned long long os_off_t;
 #else
-typedef off_t os_off_t;
+/* typedef off_t os_off_t; */
 #if SIZEOF_OFF_T > 4
 typedef ulonglong my_off_t;
 #else
@@ -723,10 +723,10 @@ C_MODE_END
 /* #endif /\* !HAVE_STRUCT_TIMESPEC *\/ */
 /* } */
 
-static inline void set_timespec(struct timespec *abstime, ulonglong sec)
-{
-  set_timespec_nsec(abstime, sec * 1000000000ULL);
-}
+/* static inline void set_timespec(struct timespec *abstime, ulonglong sec) */
+/* { */
+/*   set_timespec_nsec(abstime, sec * 1000000000ULL); */
+/* } */
 
 /**
    Compare two timespec structs.
@@ -735,38 +735,38 @@ static inline void set_timespec(struct timespec *abstime, ulonglong sec)
    @retval -1 If ts1 ends before ts2.
    @retval  0 If ts1 is equal to ts2.
 */
-static inline int cmp_timespec(struct timespec *ts1, struct timespec *ts2)
-{
-#ifdef HAVE_STRUCT_TIMESPEC
-  if (ts1->tv_sec > ts2->tv_sec ||
-      (ts1->tv_sec == ts2->tv_sec && ts1->tv_nsec > ts2->tv_nsec))
-    return 1;
-  if (ts1->tv_sec < ts2->tv_sec ||
-      (ts1->tv_sec == ts2->tv_sec && ts1->tv_nsec < ts2->tv_nsec))
-    return -1;
-#else
-  if (ts1->tv.i64 > ts2->tv.i64)
-    return 1;
-  if (ts1->tv.i64 < ts2->tv.i64)
-    return -1;
-#endif
-  return 0;
-}
+/* static inline int cmp_timespec(struct timespec *ts1, struct timespec *ts2) */
+/* { */
+/* #ifdef HAVE_STRUCT_TIMESPEC */
+/*   if (ts1->tv_sec > ts2->tv_sec || */
+/*       (ts1->tv_sec == ts2->tv_sec && ts1->tv_nsec > ts2->tv_nsec)) */
+/*     return 1; */
+/*   if (ts1->tv_sec < ts2->tv_sec || */
+/*       (ts1->tv_sec == ts2->tv_sec && ts1->tv_nsec < ts2->tv_nsec)) */
+/*     return -1; */
+/* #else */
+/*   if (ts1->tv.i64 > ts2->tv.i64) */
+/*     return 1; */
+/*   if (ts1->tv.i64 < ts2->tv.i64) */
+/*     return -1; */
+/* #endif */
+/*   return 0; */
+/* } */
 
-static inline ulonglong diff_timespec(struct timespec *ts1, struct timespec *ts2)
-{
-#ifdef HAVE_STRUCT_TIMESPEC
-  return (ts1->tv_sec - ts2->tv_sec) * 1000000000ULL +
-    ts1->tv_nsec - ts2->tv_nsec;
-#else
-  return (ts1->tv.i64 - ts2->tv.i64) * 100;
-#endif
-}
+/* static inline ulonglong diff_timespec(struct timespec *ts1, struct timespec *ts2) */
+/* { */
+/* #ifdef HAVE_STRUCT_TIMESPEC */
+/*   return (ts1->tv_sec - ts2->tv_sec) * 1000000000ULL + */
+/*     ts1->tv_nsec - ts2->tv_nsec; */
+/* #else */
+/*   return (ts1->tv.i64 - ts2->tv.i64) * 100; */
+/* #endif */
+/* } */
 
 #ifdef _WIN32
 typedef int MY_MODE;
 #else
-typedef mode_t MY_MODE;
+/* typedef mode_t MY_MODE; */
 #endif /* _WIN32 */
 
 /* File permissions */

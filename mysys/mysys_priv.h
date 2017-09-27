@@ -17,12 +17,12 @@
 #define MYSYS_PRIV_INCLUDED
 
 #include "my_global.h"
-#include "mysql/psi/mysql_thread.h"
+/* #include "mysql/psi/mysql_thread.h" */
 
 #ifdef HAVE_PSI_INTERFACE
 
 #include <mysql/psi/mysql_file.h>
-#include <mysql/psi/mysql_thread.h>
+/* #include <mysql/psi/mysql_thread.h> */
 
 C_MODE_START
 

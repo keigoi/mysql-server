@@ -18,7 +18,7 @@
 
 #include "my_global.h"
 
-#include <sys/stat.h>
+/* #include <sys/stat.h> */
 
 #ifdef	__cplusplus
 extern "C" {
@@ -55,11 +55,11 @@ extern "C" {
 
 	/* typedefs for my_dir & my_stat */
 
-#if(_MSC_VER)
-#define MY_STAT struct _stati64 /* 64 bit file size */
-#else
+/* #if(_MSC_VER) */
+/* #define MY_STAT struct _stati64 /\* 64 bit file size *\/ */
+/* #else */
 #define MY_STAT struct stat	/* Orginal struct have what we need */
-#endif
+/* #endif */
 
 /* Struct describing one file returned from my_dir */
 typedef struct fileinfo

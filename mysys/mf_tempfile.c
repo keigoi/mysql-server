@@ -14,12 +14,12 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA */
 
 #include "my_global.h"
-#include "mysys_priv.h"
-#include <m_string.h>
-#include "my_static.h"
-#include "mysys_err.h"
-#include <errno.h>
-#include "my_thread_local.h"
+/* #include "mysys_priv.h" */
+/* #include <m_string.h> */
+/* #include "my_static.h" */
+/* #include "mysys_err.h" */
+/* #include <errno.h> */
+/* #include "my_thread_local.h" */
 
 
 /*
@@ -60,8 +60,8 @@ File create_temp_file(char *to, const char *dir, const char *prefix,
   TCHAR path_buf[MAX_PATH-14];
 #endif
 
-  DBUG_ENTER("create_temp_file");
-  DBUG_PRINT("enter", ("dir: %s, prefix: %s", dir, prefix));
+  /* DBUG_ENTER("create_temp_file"); */
+  /* DBUG_PRINT("enter", ("dir: %s, prefix: %s", dir, prefix)); */
 #if defined(_WIN32)
 
    /*
@@ -81,9 +81,10 @@ File create_temp_file(char *to, const char *dir, const char *prefix,
       - uses up to the first three letters from prefix
    */
   if (GetTempFileName(dir, prefix, 0, to) == 0)
-    DBUG_RETURN(-1);
+    return -1;
+    /* DBUG_RETURN(-1); */
 
-  DBUG_PRINT("info", ("name: %s", to));
+  /* DBUG_PRINT("info", ("name: %s", to)); */
 
   /*
     Open the file without the "open only if file doesn't already exist"
@@ -113,7 +114,8 @@ File create_temp_file(char *to, const char *dir, const char *prefix,
     {
       errno=ENAMETOOLONG;
       set_my_errno(ENAMETOOLONG);
-      DBUG_RETURN(file);
+      /* DBUG_RETURN(file); */
+      return file;
     }
     my_stpcpy(convert_dirname(to,dir,NullS),prefix_buff);
     org_file=mkstemp(to);
@@ -137,5 +139,6 @@ File create_temp_file(char *to, const char *dir, const char *prefix,
     my_tmp_file_created++;
     mysql_mutex_unlock(&THR_LOCK_open);
   }
-  DBUG_RETURN(file);
+  /* DBUG_RETURN(file); */
+  return file;
 }

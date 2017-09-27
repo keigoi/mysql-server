@@ -17,7 +17,7 @@
 #define _my_sys_h
 
 #include "my_global.h"                  /* C_MODE_START, C_MODE_END */
-#include "m_ctype.h"                    /* for CHARSET_INFO */
+/* #include "m_ctype.h"                    /\* for CHARSET_INFO *\/ */
 
 #include "my_thread.h"                  /* Needed for psi.h */
 #include "mysql/psi/psi.h"

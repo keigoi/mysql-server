@@ -31,8 +31,9 @@ typedef DWORD thread_local_key_t;
 typedef pthread_key_t thread_local_key_t;
 #endif
 
+typedef void destructor_(void * p);
 static inline int my_create_thread_local_key(thread_local_key_t *key,
-                                             void (*destructor)(void *))
+                                             destructor_* destructor)
 {
 #ifdef _WIN32
   *key= TlsAlloc();

@@ -57,7 +57,7 @@
 /* #undef HAVE_SOLARIS_LARGE_PAGES */
 #define HAVE_STDDEF_H 1
 #define HAVE_STDLIB_H 1
-#define HAVE_STDARG_H 1
+#define HAVE_STDARG_H 0
 #define HAVE_STRINGS_H 1
 #define HAVE_STRING_H 1
 #define HAVE_STDINT_H 1
@@ -421,7 +421,9 @@
 /*
   Define to `__inline__' or `__inline' if that's what the C compiler calls it.
 */
-#define C_HAS_inline 1
+#define C_HAS_inline 0
+#define inline
+#define extern
 /* #if !(C_HAS_inline) */
 /* #ifndef __cplusplus */
 /* # define inline  */
@@ -625,9 +627,9 @@
 #define WITH_PARTITION_STORAGE_ENGINE 1
 #define WITH_PERFSCHEMA_STORAGE_ENGINE 1
 /* #undef WITH_NDBCLUSTER_STORAGE_ENGINE */
-#if (WITH_NDBCLUSTER_STORAGE_ENGINE) && !defined(EMBEDDED_LIBRARY)
-# define HAVE_NDB_BINLOG 1
-#endif
+/* #if (WITH_NDBCLUSTER_STORAGE_ENGINE) && !defined(EMBEDDED_LIBRARY) */
+/* # define HAVE_NDB_BINLOG 1 */
+/* #endif */
 
 #define DEFAULT_MYSQL_HOME "/usr/local/mysql"
 #define SHAREDIR "/usr/local/mysql/share"

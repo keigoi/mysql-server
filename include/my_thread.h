@@ -20,9 +20,9 @@
 
 #include "my_global.h"              /* my_bool */
 
-#if !defined(_WIN32)
+/* #if !defined(_WIN32) */
 #include <pthread.h>
-#endif
+/* #endif */
 
 #ifndef ETIME
 #define ETIME ETIMEDOUT             /* For FreeBSD */
@@ -36,11 +36,11 @@
   MySQL can survive with 32K, but some glibc libraries require > 128K stack
   To resolve hostnames. Also recursive stored procedures needs stack.
 */
-#if defined(__sparc) && (defined(__SUNPRO_CC) || defined(__SUNPRO_C))
-#define STACK_MULTIPLIER 2UL
-#else
+/* #if defined(__sparc) && (defined(__SUNPRO_CC) || defined(__SUNPRO_C)) */
+/* #define STACK_MULTIPLIER 2UL */
+/* #else */
 #define STACK_MULTIPLIER 1UL
-#endif
+/* #endif */
 
 #if SIZEOF_CHARP > 4
 #define DEFAULT_THREAD_STACK	(STACK_MULTIPLIER * 256UL * 1024UL)
@@ -76,7 +76,8 @@ typedef pthread_t        my_thread_t;
 typedef pthread_attr_t   my_thread_attr_t;
 #define MY_THREAD_CREATE_JOINABLE PTHREAD_CREATE_JOINABLE
 #define MY_THREAD_CREATE_DETACHED PTHREAD_CREATE_DETACHED
-typedef void *(* my_start_routine)(void *);
+typedef void *my_start_routine_(void * p);
+typedef my_start_routine_ *my_start_routine;
 #define MY_THREAD_ONCE_INIT       PTHREAD_ONCE_INIT
 #endif
 
@@ -88,7 +89,8 @@ typedef struct st_my_thread_handle
 #endif
 } my_thread_handle;
 
-int my_thread_once(my_thread_once_t *once_control, void (*init_routine)(void));
+typedef void init_routine_(void);
+int my_thread_once(my_thread_once_t *once_control, init_routine_* init_routine);
 
 static inline my_thread_t my_thread_self()
 {

@@ -28,7 +28,7 @@
   or will crash at runtime
   since various structures will have different binary definitions.
 */
-#error "You must include my_global.h in the code for the build to be correct."
+/* #error "You must include my_global.h in the code for the build to be correct." */
 #endif
 
 #include "psi_base.h"

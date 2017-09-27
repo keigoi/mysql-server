@@ -90,24 +90,24 @@ inline bool unlikely(bool expr)
 #  define MY_ASSERT_UNREACHABLE()  do { assert(0); } while (0)
 #endif
 
-#if defined __GNUC__ || defined __SUNPRO_C || defined __SUNPRO_CC
+/* #if defined __GNUC__ || defined __SUNPRO_C || defined __SUNPRO_CC */
 /* Specifies the minimum alignment of a type. */
 # define MY_ALIGNOF(type)   __alignof__(type)
 /* Determine the alignment requirement of a type. */
 # define MY_ALIGNED(n)      __attribute__((__aligned__((n))))
 /* Microsoft Visual C++ */
-#elif defined _MSC_VER
-# define MY_ALIGNOF(type)   __alignof(type)
-# define MY_ALIGNED(n)      __declspec(align(n))
-#else /* Make sure they are defined for other compilers. */
-# define MY_ALIGNOF(type)
-# define MY_ALIGNED(size)
-#endif
+/* #elif defined _MSC_VER */
+/* # define MY_ALIGNOF(type)   __alignof(type) */
+/* # define MY_ALIGNED(n)      __declspec(align(n)) */
+/* #else /\* Make sure they are defined for other compilers. *\/ */
+/* # define MY_ALIGNOF(type) */
+/* # define MY_ALIGNED(size) */
+/* #endif */
 
 /* Visual Studio requires '__inline' for C code */
-#if !defined(__cplusplus) && defined(_MSC_VER)
-# define inline __inline
-#endif
+/* #if !defined(__cplusplus) && defined(_MSC_VER) */
+/* # define inline __inline */
+/* #endif */
 
 /* Provide __func__ macro definition for Visual Studio. */
 #if defined(_MSC_VER)

@@ -39,26 +39,26 @@
 #endif
 
 #include <stdio.h>
-#include <stdarg.h>
+/* #include <stdarg.h> */
 #include <stdlib.h>
 #include <stddef.h>
 #include <math.h>
 #include <limits.h>
-#include <float.h>
-#include <fcntl.h>
-#include <time.h>
-#include <errno.h>				/* Recommended by debian */
-#include <sys/types.h>
+/* #include <float.h> */
+/* #include <fcntl.h> */
+/* #include <time.h> */
+/* #include <errno.h>				/\* Recommended by debian *\/ */
+/* #include <sys/types.h> */
 
-#ifdef HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
-#endif
-#if !defined(_WIN32)
-#include <netdb.h>
-#endif
-#ifdef MY_MSCRT_DEBUG
-#include <crtdbg.h>
-#endif
+/* #ifdef HAVE_SYS_SOCKET_H */
+/* #include <sys/socket.h> */
+/* #endif */
+/* #if !defined(_WIN32) */
+/* #include <netdb.h> */
+/* #endif */
+/* #ifdef MY_MSCRT_DEBUG */
+/* #include <crtdbg.h> */
+/* #endif */
 
 /*
   A lot of our programs uses asserts, so better to always include it
@@ -106,7 +106,7 @@
 #define IF_WIN(A,B) B
 #endif
 
-#if defined (_WIN32)
+#if defined _WIN32
 /*
  off_t is 32 bit long. We do not use C runtime functions
  with off_t but native Win32 file IO APIs, that work with
@@ -173,10 +173,10 @@ static inline void sleep(unsigned long seconds)
 #define SO_EXT ".so"
 #endif
 
-#if !defined(HAVE_UINT)
+/* #if !defined(HAVE_UINT) */
 typedef unsigned int uint;
 typedef unsigned short ushort;
-#endif
+/* #endif */
 
 #define swap_variables(t, a, b) { t dummy; dummy= a; a= b; b= dummy; }
 #define MY_TEST(a)		((a) ? 1 : 0)
@@ -201,7 +201,8 @@ typedef int	my_socket;	/* File descriptor for sockets */
 #define INVALID_SOCKET -1
 #endif
 C_MODE_START
-typedef void	(*sig_return)();/* Returns type from signal */
+typedef void	sig_return_();/* Returns type from signal */
+typedef sig_return_* sig_return;/* Returns type from signal */
 C_MODE_END
 #if defined(__GNUC__)
 typedef char	pchar;		/* Mixed prototypes can take char */
@@ -211,8 +212,10 @@ typedef int	pchar;		/* Mixed prototypes can't take char */
 typedef int	pbool;		/* Mixed prototypes can't take char */
 #endif
 C_MODE_START
-typedef int	(*qsort_cmp)(const void *,const void *);
-typedef int	(*qsort_cmp2)(const void*, const void *,const void *);
+typedef int	qsort_cmp_(const void * p,const void * q);
+typedef int	qsort_cmp2_(const void* p, const void * q,const void * r);
+typedef qsort_cmp_	*qsort_cmp;
+typedef qsort_cmp2_	*qsort_cmp2;
 C_MODE_END
 #ifdef _WIN32
 typedef int       socket_len_t;
@@ -359,28 +362,28 @@ static inline int is_directory_separator(char c)
 
 /* Some defines of functions for portability */
 
-#if (_WIN32)
-#if !defined(_WIN64)
-inline double my_ulonglong2double(unsigned long long value)
-{
-  long long nr=(long long) value;
-  if (nr >= 0)
-    return (double) nr;
-  return (18446744073709551616.0 + (double) nr);
-}
-#define ulonglong2double my_ulonglong2double
-#define my_off_t2double  my_ulonglong2double
-#endif /* _WIN64 */
-inline unsigned long long my_double2ulonglong(double d)
-{
-  double t= d - (double) 0x8000000000000000ULL;
+/* #if (_WIN32) */
+/* #if !defined(_WIN64) */
+/* inline double my_ulonglong2double(unsigned long long value) */
+/* { */
+/*   long long nr=(long long) value; */
+/*   if (nr >= 0) */
+/*     return (double) nr; */
+/*   return (18446744073709551616.0 + (double) nr); */
+/* } */
+/* #define ulonglong2double my_ulonglong2double */
+/* #define my_off_t2double  my_ulonglong2double */
+/* #endif /\* _WIN64 *\/ */
+/* inline unsigned long long my_double2ulonglong(double d) */
+/* { */
+/*   double t= d - (double) 0x8000000000000000ULL; */
 
-  if (t >= 0)
-    return  ((unsigned long long) t) + 0x8000000000000000ULL;
-  return (unsigned long long) d;
-}
-#define double2ulonglong my_double2ulonglong
-#endif /* _WIN32 */
+/*   if (t >= 0) */
+/*     return  ((unsigned long long) t) + 0x8000000000000000ULL; */
+/*   return (unsigned long long) d; */
+/* } */
+/* #define double2ulonglong my_double2ulonglong */
+/* #endif /\* _WIN32 *\/ */
 
 #ifndef ulonglong2double
 #define ulonglong2double(A) ((double) (ulonglong) (A))
@@ -414,13 +417,13 @@ inline unsigned long long my_double2ulonglong(double d)
 #include <ieeefp.h>
 #endif
 
-#if (__cplusplus >= 201103L)
-  /* For C++11 use the new std functions rather than C99 macros. */
-  #include <cmath>
-  #define my_isfinite(X) std::isfinite(X)
-  #define my_isnan(X) std::isnan(X)
-  #define my_isinf(X) std::isinf(X)
-#else
+/* #if (__cplusplus >= 201103L) */
+/*   /\* For C++11 use the new std functions rather than C99 macros. *\/ */
+/*   #include <cmath> */
+/*   #define my_isfinite(X) std::isfinite(X) */
+/*   #define my_isnan(X) std::isnan(X) */
+/*   #define my_isinf(X) std::isinf(X) */
+/* #else */
   #ifdef HAVE_LLVM_LIBCPP /* finite is deprecated in libc++ */
     #define my_isfinite(X) isfinite(X)
   #elif defined _WIN32
@@ -435,7 +438,7 @@ inline unsigned long long my_double2ulonglong(double d)
   #else /* !HAVE_ISINF */
     #define my_isinf(X) (!my_isfinite(X) && !my_isnan(X))
   #endif
-#endif /* __cplusplus >= 201103L */
+/* #endif /\* __cplusplus >= 201103L *\/ */
 
 /*
   Max size that must be added to a so that we know Size to make
@@ -493,9 +496,9 @@ typedef unsigned long uint32;
 #error Neither int or long is of 4 bytes width
 #endif
 
-#if !defined(HAVE_ULONG)
+/* #if !defined(HAVE_ULONG) */
 typedef unsigned long	ulong;		  /* Short for unsigned long */
-#endif
+/* #endif */
 /* 
   Using [unsigned] long long is preferable as [u]longlong because we use 
   [unsigned] long long unconditionally in many places, 
@@ -577,7 +580,7 @@ typedef char		my_bool; /* Small bool */
 
 #define MY_HOW_OFTEN_TO_WRITE	1000	/* How often we want info on screen */
 
-#include <my_byteorder.h>
+/* #include <my_byteorder.h> */
 
 #ifdef HAVE_CHARSET_utf8
 #define MYSQL_UNIVERSAL_CLIENT_CHARSET "utf8"
@@ -624,22 +627,22 @@ typedef char		my_bool; /* Small bool */
 #define MY_MAX(a, b)	((a) > (b) ? (a) : (b))
 #define MY_MIN(a, b)	((a) < (b) ? (a) : (b))
 
-#if !defined(__cplusplus) && !defined(bool)
-#define bool In_C_you_should_use_my_bool_instead()
-#endif
+/* #if !defined(__cplusplus) && !defined(bool) */
+/* #define bool In_C_you_should_use_my_bool_instead() */
+/* #endif */
 
 /* 
   MYSQL_PLUGIN_IMPORT macro is used to export mysqld data
   (i.e variables) for usage in storage engine loadable plugins.
   Outside of Windows, it is dummy.
 */
-#if (defined(_WIN32) && defined(MYSQL_DYNAMIC_PLUGIN))
-#define MYSQL_PLUGIN_IMPORT __declspec(dllimport)
-#else
+/* #if (defined(_WIN32) && defined(MYSQL_DYNAMIC_PLUGIN)) */
+/* #define MYSQL_PLUGIN_IMPORT __declspec(dllimport) */
+/* #else */
 #define MYSQL_PLUGIN_IMPORT
-#endif
+/* #endif */
 
-#include <my_dbug.h>
+/* #include <my_dbug.h> */
 
 #ifdef EMBEDDED_LIBRARY
 #define NO_EMBEDDED_ACCESS_CHECKS
@@ -679,46 +682,46 @@ static inline struct tm *gmtime_r(const time_t *clock, struct tm *res)
   so it can be used directly as a 64 bit value. The value
   stored is in 100ns units.
 */
-union ft64 {
-  FILETIME ft;
-  __int64 i64;
- };
+/* union ft64 { */
+/*   FILETIME ft; */
+/*   __int64 i64; */
+/*  }; */
 
-struct timespec {
-  union ft64 tv;
-  /* The max timeout value in millisecond for native_cond_timedwait */
-  long max_timeout_msec;
-};
+/* struct timespec { */
+/*   union ft64 tv; */
+/*   /\* The max timeout value in millisecond for native_cond_timedwait *\/ */
+/*   long max_timeout_msec; */
+/* }; */
 
 #endif /* !HAVE_STRUCT_TIMESPEC */
 
 C_MODE_START
-extern ulonglong my_getsystime(void);
+ulonglong my_getsystime(void);
 C_MODE_END
 
-static inline void set_timespec_nsec(struct timespec *abstime, ulonglong nsec)
-{
-#ifdef HAVE_STRUCT_TIMESPEC
-  ulonglong now= my_getsystime() + (nsec / 100);
-  ulonglong tv_sec= now / 10000000ULL;
-#if SIZEOF_TIME_T < SIZEOF_LONG_LONG
-  /* Ensure that the number of seconds don't overflow. */
-  tv_sec= MY_MIN(tv_sec, ((ulonglong)INT_MAX32));
-#endif
-  abstime->tv_sec=  (time_t)tv_sec;
-  abstime->tv_nsec= (now % 10000000ULL) * 100 + (nsec % 100);
-#else /* !HAVE_STRUCT_TIMESPEC */
-  ulonglong max_timeout_msec= (nsec / 1000000);
-  union ft64 tv;
-  GetSystemTimeAsFileTime(&tv.ft);
-  abstime->tv.i64= tv.i64 + (__int64)(nsec / 100);
-#if SIZEOF_LONG < SIZEOF_LONG_LONG
-  /* Ensure that the msec value doesn't overflow. */
-  max_timeout_msec= MY_MIN(max_timeout_msec, ((ulonglong)INT_MAX32));
-#endif
-  abstime->max_timeout_msec= (long)max_timeout_msec;
-#endif /* !HAVE_STRUCT_TIMESPEC */
-}
+/* static inline void set_timespec_nsec(struct timespec *abstime, ulonglong nsec) */
+/* { */
+/* #ifdef HAVE_STRUCT_TIMESPEC */
+/*   ulonglong now= my_getsystime() + (nsec / 100); */
+/*   ulonglong tv_sec= now / 10000000ULL; */
+/* #if SIZEOF_TIME_T < SIZEOF_LONG_LONG */
+/*   /\* Ensure that the number of seconds don't overflow. *\/ */
+/*   tv_sec= MY_MIN(tv_sec, ((ulonglong)INT_MAX32)); */
+/* #endif */
+/*   abstime->tv_sec=  (time_t)tv_sec; */
+/*   abstime->tv_nsec= (now % 10000000ULL) * 100 + (nsec % 100); */
+/* #else /\* !HAVE_STRUCT_TIMESPEC *\/ */
+/*   ulonglong max_timeout_msec= (nsec / 1000000); */
+/*   /\* union ft64 tv; *\/ */
+/*   GetSystemTimeAsFileTime(&tv.ft); */
+/*   abstime->tv.i64= tv.i64 + (__int64)(nsec / 100); */
+/* #if SIZEOF_LONG < SIZEOF_LONG_LONG */
+/*   /\* Ensure that the msec value doesn't overflow. *\/ */
+/*   max_timeout_msec= MY_MIN(max_timeout_msec, ((ulonglong)INT_MAX32)); */
+/* #endif */
+/*   abstime->max_timeout_msec= (long)max_timeout_msec; */
+/* #endif /\* !HAVE_STRUCT_TIMESPEC *\/ */
+/* } */
 
 static inline void set_timespec(struct timespec *abstime, ulonglong sec)
 {
@@ -786,7 +789,7 @@ typedef mode_t MY_MODE;
 #define DEFAULT_SSL_SERVER_CERT "server-cert.pem"
 #define DEFAULT_SSL_SERVER_KEY  "server-key.pem"
 
-#if defined(_WIN32) || defined(_WIN64)
-  #define strcasecmp _stricmp
-#endif
+/* #if defined(_WIN32) || defined(_WIN64) */
+/*   #define strcasecmp _stricmp */
+/* #endif */
 #endif  // MY_GLOBAL_INCLUDED

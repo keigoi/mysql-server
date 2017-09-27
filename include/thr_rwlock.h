@@ -185,11 +185,11 @@ typedef struct st_rw_pr_lock_t {
 #endif
 } rw_pr_lock_t;
 
-extern int rw_pr_init(rw_pr_lock_t *);
-extern int rw_pr_rdlock(rw_pr_lock_t *);
-extern int rw_pr_wrlock(rw_pr_lock_t *);
-extern int rw_pr_unlock(rw_pr_lock_t *);
-extern int rw_pr_destroy(rw_pr_lock_t *);
+extern int rw_pr_init(rw_pr_lock_t * p);
+extern int rw_pr_rdlock(rw_pr_lock_t * p);
+extern int rw_pr_wrlock(rw_pr_lock_t * p);
+extern int rw_pr_unlock(rw_pr_lock_t * p);
+extern int rw_pr_destroy(rw_pr_lock_t * p);
 
 static inline void
 rw_pr_lock_assert_write_owner(const rw_pr_lock_t *rwlock MY_ATTRIBUTE((unused)))

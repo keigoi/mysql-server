@@ -28,6 +28,7 @@
 extern "C" {
 #endif
 
+typedef int  compare_func(void * a, uchar * b, uchar * c);
 typedef struct st_queue {
   uchar **root;
   void *first_cmp_arg;
@@ -35,7 +36,7 @@ typedef struct st_queue {
   uint max_elements;
   uint offset_to_key;	/* compare is done on element+offset */
   int max_at_top;	/* Normally 1, set to -1 if queue_top gives max */
-  int  (*compare)(void *, uchar *,uchar *);
+  compare_func *compare;
   uint auto_extent;
 } QUEUE;
 
@@ -56,16 +57,14 @@ static inline void queue_set_max_at_top(QUEUE *queue, int set_arg)
   queue->max_at_top= set_arg ? -1 : 1;
 }
 
-typedef int (*queue_compare)(void *,uchar *, uchar *);
-
 int init_queue(QUEUE *queue,uint max_elements,uint offset_to_key,
-	       pbool max_at_top, queue_compare compare,
+	       pbool max_at_top, compare_func* compare,
 	       void *first_cmp_arg);
 int init_queue_ex(QUEUE *queue,uint max_elements,uint offset_to_key,
-	       pbool max_at_top, queue_compare compare,
+	       pbool max_at_top, compare_func* compare,
 	       void *first_cmp_arg, uint auto_extent);
 int reinit_queue(QUEUE *queue,uint max_elements,uint offset_to_key,
-                 pbool max_at_top, queue_compare compare,
+                 pbool max_at_top, compare_func* compare,
                  void *first_cmp_arg);
 void delete_queue(QUEUE *queue);
 void queue_insert(QUEUE *queue,uchar *element);

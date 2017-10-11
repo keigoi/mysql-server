@@ -22,9 +22,9 @@
   of queue_fix was implemented.
 */
 
-#include "mysys_priv.h"
-#include "my_sys.h"
-#include "mysys_err.h"
+/* #include "mysys_priv.h" */
+/* #include "my_sys.h" */
+/* #include "mysys_err.h" */
 #include <queues.h>
 
 int resize_queue(QUEUE *queue, uint max_elements);
@@ -51,7 +51,7 @@ int resize_queue(QUEUE *queue, uint max_elements);
 */
 
 int init_queue(QUEUE *queue, uint max_elements, uint offset_to_key,
-	       pbool max_at_top, int (*compare) (void *, uchar *, uchar *),
+	       pbool max_at_top, compare_func *compare,
 	       void *first_cmp_arg)
 {
   DBUG_ENTER("init_queue");
@@ -95,7 +95,7 @@ int init_queue(QUEUE *queue, uint max_elements, uint offset_to_key,
 */
 
 int init_queue_ex(QUEUE *queue, uint max_elements, uint offset_to_key,
-	       pbool max_at_top, int (*compare) (void *, uchar *, uchar *),
+	       pbool max_at_top, compare_func *compare,
 	       void *first_cmp_arg, uint auto_extent)
 {
   int ret;
@@ -132,7 +132,7 @@ int init_queue_ex(QUEUE *queue, uint max_elements, uint offset_to_key,
 */
 
 int reinit_queue(QUEUE *queue, uint max_elements, uint offset_to_key,
-		 pbool max_at_top, int (*compare) (void *, uchar *, uchar *),
+		 pbool max_at_top, compare_func *compare,
 		 void *first_cmp_arg)
 {
   DBUG_ENTER("reinit_queue");
